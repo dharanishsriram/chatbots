@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 import mysql.connector
-
+global cnx
 
 cnx = mysql.connector.connect(
     host="localhost",
@@ -12,15 +12,14 @@ app = FastAPI()
 
 # Database connection
 def get_db_connection(order_id:int ):
-    cursor = cnx.cursor()
+    cursor = cnx.cursor(buffered=True)
     query= "Select court_name from court where case_no = %s"
     cursor.execute(query, (order_id,))
-    result = cursor.fetchone()
-
+    result = cursor.fetchall()
     cursor.close()
-    cnx.close()
+
 
     if result is not None:
-        return result[0]
+        return result
     else:
         return None

@@ -15,9 +15,17 @@ async def handle_post(request: Request):
     parameters = payload['queryResult']['parameters']
     output_contexts = payload['queryResult']['outputContexts']
 
+    intent_handler_dict={
+        'case_details':case_track,
 
-    if intent == "case_details":
-        return case_track(parameters)
+    }
+    return intent_handler_dict[intent](parameters)
+
+
+
+def add_cases(parameters: dict):
+    return add_cases(parameters)
+
 
 def case_track(parameters: dict):
      order_id =parameters['number']
